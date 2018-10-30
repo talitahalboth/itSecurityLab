@@ -84,7 +84,7 @@ def openSocketSSL(i,c):
                     count=count+1
                 try:
                     wrappedSocket.send(data)
-                    time.sleep(10)
+                    time.sleep(1)
                 except:
                     print ("conexao morreu..?")
             

@@ -1,0 +1,46 @@
+# This file shows known responses from FTP servers to the following commands:
+# WHOAREYOu
+# HELP
+# QUIT
+# At the beggining and end of each signature is the name of the server, surrounded by "$" symbols
+$ProFTPD$
+500 WHOAREYOU not understood
+500 Invalid command: try being more creative
+214-The following commands are recognized (* =>'s unimplemented):
+214-CWD     XCWD    CDUP    XCUP    SMNT*   QUIT    PORT    PASV    
+214-EPRT    EPSV    ALLO*   RNFR    RNTO    DELE    MDTM    RMD     
+214-XRMD    MKD     XMKD    PWD     XPWD    SIZE    SYST    HELP    
+214-NOOP    FEAT    OPTS    AUTH*   CCC*    CONF*   ENC*    MIC*    
+214-PBSZ*   PROT*   TYPE    STRU    MODE    RETR    STOR    STOU    
+214-APPE    REST    ABOR    USER    PASS    ACCT*   REIN*   LIST    
+214-NLST    STAT    SITE    MLSD    MLST    
+214 Direct comments to root@fingerprinting
+500 Invalid command: try being more creative
+221 Goodbye.
+$ProFTPD$
+$Pure-FTPd$
+530 You aren't logged in
+500 ?
+214-The following SITE commands are recognized
+ ALIAS
+ CHMOD
+ IDLE
+ UTIME
+214 Pure-FTPd - http://pureftpd.org/
+500 ?
+221-Goodbye. You uploaded 0 and downloaded 0 kbytes.
+221 Logout.
+$Pure-FTPd$
+$Pyftpd$
+500 I'm gonna ignore this command... maybe later...
+500 I'm gonna ignore this command... maybe later...
+500 I'm gonna ignore this command... maybe later...
+500 I'm gonna ignore this command... maybe later...
+221 Have a good one!
+$Pyftpd$
+$Vsftpd$
+530 Please login with USER and PASS.
+530 Please login with USER and PASS.
+221 Goodbye.
+$Vsftpd$
+

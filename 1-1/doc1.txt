@@ -1,0 +1,23 @@
+Usage: 
+$ python checkPort.py <target IP>
+
+Finding out the  HTTP daemons and ports:
+To find out the HTTP ports, we need to scan each port at the host, check if it's open, and check if it's HTTP. To do it, we create a socket and try to connect to it. If we are successful, we then send a request to the server, as follows: 
+"HEAD / HTTP/1.0\r\n\r\n"
+If a HTTP daemon is litening to the port, the response to this request contains it's header. Here we can find the information we need. We first try to find the substring "HTTP" at what we recieved. If we are able to, we can be sure to a certain degree that we are dealing with a HTTP daemon. Next, try to find out wich is the daemon. In the header, it is easy to find: there's a section "Server". After finding the daemon, we check for it in a list where we put all the daemons that we already found. If it's there, we append the port we're in to it's ports list. If it isn't, we append it in the daemons list and create a list for the ports it's listening to. In the end, we print all daemons and the respective port.
+
+
+Finding out the FTP daemons:
+
+As it has been told, the ports which the FTPds are listening to are 210, 2100, 2121 and 21000. So we only open sockets to those ports (for simplicity). For each port, the procedure is the following:
+We try to open a socket with the host and port. If we are successful, we firstly crate a counting list "ftpServer". This list is just an extra measure to increase the chances of finding out the right FTP daemon. We then get the welcome banner from the server. Then, we send 3 commands:
+WHOAREYOU
+HELP
+QUIT
+After using nmap and finding out each daemon, we can find out what each one send after recieveng those commands (I'm calling the answer to those commands the daemon's "signature"). The expected answers are saved in a text file "ftpSignatures.txt". Now, we compare the answers we got with the ones in the file. If we get a match, we increase the counter in the position of the daemon we found out, as follows:
+Position 0 - the answer was a match to an ProFTPD answer.
+Position 1 - match to Pure-FTPd
+Position 2 - match to vsftpd
+Position 3 - match to pyftpd
+Position 4 - no match was found
+After all 3 commands are tested, we then find which position has the higher value, and this will be the daemon.

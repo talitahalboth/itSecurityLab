@@ -37,28 +37,7 @@ def testSignature(output):
 
 
 
-
-
-def main():
-    #===============================================================================#
-
-    HOST = sys.argv[1]
-
-
-#DEBUG 
-    """ports = [22,210,777,1408,2100,2121,2589,3890,4739,5533,6371,6966,
-    8223,8486,9813,10388,10423,11901,12080,12346,13967,14673,15047,
-    15302,16663,17773,18254,18769,18824,18948,20545,20863,21000,21241,
-    22012,22461,23255,23439,23955,24542,24584,25797,26378,27890,28072,
-    28975,29058,31331,31711,33210,33922,36424,36798,37707,38090,38591,
-    38603,39207,40074,40110,40126,40305,40642,40671,41347,42037,42715,
-    44113,46382,47963,48870,48915,49241,50187,50318,50356,50525,50775,
-    50844,51250,51359,52028,52347,52381,52867,53559,53968,53999,55159,
-    56617,56662,56900,57311,58689,59480,60284,60346,60835,61210,61299,
-    61556,64065,64220,64442,64947]"""
-    # HTTP Daemons
-
-
+def findHTTPdaemons(HOST):
     #list of http daemons
     httpDaemons = []
     #list of ports of each daemon
@@ -72,7 +51,7 @@ def main():
             #find if port is open
             if result == 0:
                 #DEBUG
-                print ("port %d" %port)
+                #print ("port %d" %port)
                 try:
                     #send http request
                     sock.send("HEAD / HTTP/1.0\r\n\r\n")
@@ -117,10 +96,7 @@ def main():
         print ('\n')
         i += 1
 
-
-
-    #===============================================================================#
-
+def findFTPdaemons(HOST):
     # FTP DAEMONS 
     #i am assuming the FTPds are in these ports, for simplicity's sake
     ports = [210, 2100, 2121, 21000]
@@ -183,6 +159,11 @@ def main():
         print ("Couldn't connect to server")
         sys.exit()
 
+def main():
+
+    HOST = sys.argv[1]
+    findHTTPdaemons(HOST)
+    findFTPdaemons(HOST)
 
 
 if __name__ == '__main__':

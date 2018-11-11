@@ -1,0 +1,15 @@
+Usage:
+python heartbleed.py <HOST>
+
+The tool that exploits the heartbleed vulnerability function as follows:
+A socket is openet with the host given and the port 443. We then send a "hello" message. This message allows the client to provide information such as the ciphers it supports, the version of SSL/TLS any extensions it supports etc (as explained at https://www.westpoint.ltd.uk/blog/2014/04/14/understanding-the-heartbleed-proof-of-concept/ ). We then recieve 5 bytes with the type, version and length of the message. Then, we recieve a message of the lenght stablished, and test the type, to see if it's a "hello" back from the server. We repeat this until we get the message we are looking for. Then, we send a heartbeat request. After that, we just keep recieving what the server sends back. If we find a message of type 24, and lenght greater than the 3 bytes we sent, we know the server is vulnerable. We then print what we get to the screen.
+
+After doing that and gaining access to the private key, we can just use Wireshark and decrypt the .pcap to find the login and pass to the e-mail account, which are:
+username: d4rkh4xx0r
+password: Y0uW1llN3v3rG3tM3
+
+
+In order to avoid the attack, we should validate the message length and ignore Heartbeat request messages asking for more data than their payload needs. 
+
+
+

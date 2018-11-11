@@ -1,0 +1,1 @@
+Each activity has it's own documentation unde doci.txt, i being the number of the activity. They also contain information how to use the script.

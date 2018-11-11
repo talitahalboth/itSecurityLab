@@ -1,0 +1,8 @@
+Usage:
+python fios.py <target IP>
+
+This program functions as follows:
+
+A number os threads (in this case, 200) are created. Each one tries to opens a socket and connect with a host. They do it simultaniously. Each time a thread successfully connects to the host and do a handshake, a counter is increased. This counter keeps track of how many successfull connections happened so far.
+Onde a thread tries to open a socket and fails, while all other which are already connected are continuosly sending garbage to the host as not to lose the connection, we print the counter. From this point on, no other threads will be able to connect, and we find out how many handshakes the server can deal with at maximum. At this point, we can start turning off the connections that are still on, and we print the final counter on the screen.
+The maximum observed handsakes the server was able to handle was 150.

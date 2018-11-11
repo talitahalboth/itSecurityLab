@@ -1,0 +1,15 @@
+Usage:
+python ntpspoof.py <target> <network interface>[optional]
+
+
+To resolve all dependencies, use "install.sh"
+We need python, dsniff, libnetfilter-queue-dev, netfilterqueue and scapy.
+
+
+This script functions as follows:
+First, we use dnsniff to arpspoof the target. This makes our job a lot easier. Then, we set the iptables table to raw, the chain rule to PREROUTING (this rule is used for altering packets as soon as they come in), and the target to NFQUEUE, so we can use NetfilterQueue lates on. 
+Then, we use NetfilterQueue to access packets matched by the iptables rule. We bind it to the callback function, and we run it, to send packets to the callback. 
+In the callback we first get the payload of the packet, and we get the layer UDP, and delete the checksum of both layers, so we can later on recalculate them. Then we modify the packet, and send it.
+TO modify the package we have to keep in mind that Unix uses an epoch located at 1/1/1970-00:00h (UTC) and NTP uses 1/1/1900-00:00h.
+
+Disclaimer: I was not able to test this with another machine.

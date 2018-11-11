@@ -2,9 +2,7 @@ import socket
 import ssl
 from threading import Thread
 from threading import Lock
-import time
-import sys
-import time
+import time, sys
 
 
 
@@ -32,6 +30,7 @@ class Error(object):
     def __init__(self, start = 0):
         self.lock = Lock()
         self.value = start
+    #it's called "set" but it actually increments.
     def set(self):
         self.lock.acquire()
         try:
@@ -52,44 +51,14 @@ def openSocketSSL(i,c, e, HOST):
     wrappedSocket = ssl.wrap_socket(sock, 
             ssl_version=ssl.PROTOCOL_TLSv1)
 
-    # DEBUG
-    '''if (i <10):
-        print('0', end='')
-    if (i <100):
-        print('0', end='')
-    print("%d thread connect" % i)'''
     #try to connect
     try:
         wrappedSocket.connect((HOST, PORT))
-
-
-        #DEBUG
-        '''if (i <10):
-            print('0', end='')
-        if (i <100):
-            print('0', end='')
-        print ("%d conectou" %i)
-
-        if (i <10):
-            print('0', end='')
-        if (i <100):
-            print('0', end='')
-        print("%d thread handshake" % i)'''
-
-
 
         
         try:
             #try to do handshake
             wrappedSocket.do_handshake()
-
-
-            #DEBUG
-            '''if (i <10):
-                print('0', end='')
-            if (i <100):
-                print('0', end='')
-            print("%d Fez o handshake" %i)'''
 
             #if could do a handshake, increment counter
             c.increment()
@@ -112,37 +81,16 @@ def openSocketSSL(i,c, e, HOST):
             # CLOSE SOCKET CONNECTION
             wrappedSocket.close()
 
-
-
         #if could not do a handshake:
         except:
-            #DEBUG
-            '''if (i <10):
-                print('0', end='')
-            if (i <100):
-                print('0', end='')
-            print("%d Erro no handshake!" %i)'''
             handshakeError = 1
-
-
 
         
 
     #if could not connect:
     except:
-        #DEBUG
-        '''if (i <10):
-            print('0', end='')
-        if (i <100):
-            print('0', end='')
-        print("%dth thread coudn't connect! Server may be already flooded" % i)'''
         e.set()
 
-    '''if (i <10):
-        print('0', end='')
-    if (i <100):
-        print('0', end='')
-    print("%d conexao acabou" %i )'''
     #if it was connected and it dropped the connection by itself, decrement the counter
     if (connected and (not e.value)):
         c.decrement()
@@ -161,7 +109,7 @@ def main():
     while (err.value < 15):
         pass
     #print the content of the counter
-    print("Max Handshakes the server can deal with: %d" %counter.value)
+    print("Handshakes perfoermed before server started rejecting new connections: %d" %counter.value)
 
 if __name__ == '__main__':
     main()

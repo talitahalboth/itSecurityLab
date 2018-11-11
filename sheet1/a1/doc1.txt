@@ -21,3 +21,33 @@ Position 2 - match to vsftpd
 Position 3 - match to pyftpd
 Position 4 - no match was found
 After all 3 commands are tested, we then find which position has the higher value, and this will be the daemon.
+
+The HTTP daemons and ports are, as the writing of this documentation:
+
+mini_httpd/1.19 19dec2003
+Ports:
+777 1408 4739 11901 14673 18254 22012 28975 31331 40305 42037 44113 48915 50525 50844 52028 56617 61210 61299 64947 
+
+Apache/2.4.7 (Ubuntu)
+Ports:
+2589 8223 9813 10423 15302 17773 18824 20545 23439 23955 31711 36798 37707 39207 40074 40642 40671 52381 56662 64065 
+
+micro_httpd
+Ports:
+3890 6966 12346 15047 18948 24542 28072 29058 38603 41347 46382 49241 51250 51359 53999 57311 58689 61556 64220 64442 
+
+webfs/1.21
+Ports:
+5533 12080 16663 18769 27890 38090 40110 47963 48870 50187 50318 50356 50775 52347 53559 53968 59480 60284 60346 60835 
+
+lighttpd/1.4.33
+Ports:
+6371 8486 10388 13967 20863 21241 22461 23255 24584 25797 26378 33210 33922 36424 38591 40126 42715 52867 55159 56900 
+
+
+FTP daemons and respective ports:
+
+Port 210 daemon: ProFTPD
+Port 2100 daemon: Pure-FTPd
+Port 2121 daemon: pyftpd
+Port 21000 daemon: vsftpd

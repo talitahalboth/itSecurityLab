@@ -2,14 +2,15 @@
 
 1.
 
-Using 'OR''=' as the username and passwoord, we get logged in as a user, and Hanni Ball happens to be the first user in the table, so we get logged in his account.
+Using 'OR''=' as the username, we get logged in as an user, and Hanni Ball happens to be the first user in the table, so we get logged into his account.
+
 
 
 =======================================================================================
 
 2. 
 To get the inbox and outbox:
-Looking at the source code, we can see the, for both cases, the server gets the messages based on the first name of the user. So we can just create a user with the same "first name" as N. O’Brian - so, create a user with the first name N. . Then, we just check our own inbox, and N. O’Brian's mails will be there.
+Looking at the source code, we can see the, for both cases, the server gets the messages based on the first name of the user. So we can just create a user with the same "first name" as N. O’Brian - so, create a user with the first name 'N.'. Then, we just check our own inbox, and N. O’Brian's mails will be there.
 This is the same for the outbox.
 Now, for the "you've been sprayed" list, we do almost the same thing, except there we need to match the e-mail to N. O'brian's e-mail, and check the list.
 
@@ -65,7 +66,7 @@ You have been sprayed
 =======================================================================================
 
 
-3.
+3. We can upload any files we want at the "My graffiti" page. I designed a simple php shell, named "simpleShell.php". We can simply upload this file, open it and use it as a normal shell.
 
 
 
@@ -93,7 +94,7 @@ document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ 
 =======================================================================================
 
 5.
-Usage: copy the content of benignWebsite.html and paste it in the pinboard of a victim.
+Usage: open the website in a browser while logged in at myspray
 
 benignWebsite.html is an website that send a message to hanniball everytime someone opens it. To do it, we create a form just like the one we can find at myspray's source code to send messages. The URL is http://10.0.23.22/myspray/writemessage92.html, which sends a message to the user with id 92 (that's Hanniball). But, if we only created a form, when we submitted it we'd be redirected to the myspray website, so we have to give the form a targe. In this case, we create a dummy iframe that doesn't show up at the screen, and set it as the form target. So, we only have to set the value of the "subject" input as what we want the subject of the message to be, and, in the same way, set the value of the message. At the end all we have to do is submit the form, and we do it with javascript.
 
@@ -102,5 +103,11 @@ benignWebsite.html is an website that send a message to hanniball everytime some
 =======================================================================================
 
 6.
-xssWorm.html is a script that 
+Usage: copy the content of xssWorm.html and paste it in the pinboard of a victim.
+
+
+xssWorm.html is a script that infects an user's pinboard with a worm that spreads to it's friends. It also infects any user that looks at the pinboard of someone who's already infected. 
+The first thing it does is infect the user that's logged in at the moment. It gets the document cookie and splits it to get the user's id. With that, it sends itself to the victim pinboard usgin the form at 'myspray/post<usrId>.html'.
+Then, it has to infect the user's friends. To do that, it creates an iframe with the <myfriends> page of the user. Then, using jquery, it finds each of the friends of the user and post itself in the friends pinboard.
+
 

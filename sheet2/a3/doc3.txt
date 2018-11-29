@@ -1,0 +1,49 @@
+Known insecurities:
+
+
+==================================================================================
+
+At transactions, when exporting a transaction: there's an input which has the type "hidden", and the name "id". We can change it's value and we'll get back the transations of other user. If we sent the id value to 1, we get the following csv:
+
+
+id,"From card","To card",Count,Date,Message
+1,1337000000000001,1337000000000000,249,"2018-09-22 01:05:04",i1CTF{ZWZoYmllenVia3VsYmtzbWFibmlnY2tkZGJ5eHZ1YWc=}
+2,1337000000000002,1337000000000000,274,"2018-09-22 01:10:01",i1CTF{cWJ4am5oanVuYWlrZmlpdWl2endpbGl5Z255bnF3YXk=}
+3,1337000000000003,1337000000000000,102,"2018-09-22 01:15:04",i1CTF{bmRybWNjd3R6d3RldmlyZHpqZWlydHR4b2J2eHJoZmo=}
+4,1337000000000004,1337000000000000,124,"2018-09-22 01:20:04",i1CTF{cmNtdnVtd2Fyc293bnpxc2FqcHd3ZHJ2anJmdHpvcHk=}
+5,1337000000000005,1337000000000000,232,"2018-09-22 01:25:02",i1CTF{Y3Jtd2FtZWVxeW54cnZ3bHF1YXh6bnFodmh1cHl2amY=}
+6,1337000000000006,1337000000000000,166,"2018-09-22 01:30:05",i1CTF{Z25yb2lxYW1nYmdkaGdhbWliaXljdWV2emRvZnl6anQ=}
+7,1337000000000007,1337000000000000,288,"2018-09-22 01:35:02",i1CTF{dnljcXhkamt1a3ZmaXFyYXZwcXJxbXJweWlybHRqd2I=}
+8,1337000000000008,1337000000000000,188,"2018-09-22 01:40:02",i1CTF{ZGt1Z3p2eWdweXhrdnJ0aXlzdnhkb2VycmNia2xlcHU=}
+9,1337000000000009,1337000000000000,298,"2018-09-22 01:45:02",i1CTF{aHl6YXhydGxwd3lhd3JoY21zdXNpamhldHhtYWhhZnE=}
+10,1337000000000010,1337000000000000,80,"2018-09-22 01:50:02",i1CTF{eGZ1ZmN2cmxoZnhrb21seHJyand0bHJ5bWZrd2pzdGw=}
+11,1337000000000011,1337000000000000,155,"2018-09-22 01:55:01",i1CTF{ZmF3Y3J2dW54Znluc3d4dXRjb21iY3d6anNwaHJ6Yng=}
+12,1337000000000012,1337000000000000,50,"2018-09-22 02:00:02",i1CTF{Ynlld2hvZW54YXVvZ3VrdnhlamtvbmpuYmF1dXhuc3Y=}
+13,1337000000000013,1337000000000000,104,"2018-09-22 02:05:01",i1CTF{c213d2NydWZzb2RvZWF6aWJkc255dXp0enNtcHhuc2k=}
+14,1337000000000014,1337000000000000,78,"2018-09-22 02:10:02",i1CTF{bmtkZnNlb2p2cW1qeHZ0ZmN5YWdzaWV2aGFoYWR0dWw=}
+15,1337000000000015,1337000000000000,254,"2018-09-22 02:15:04",i1CTF{YXNkdm1sZ2RzYmNscm10eWxremJoam5nd2picm1ubnU=}
+16,1337000000000016,1337000000000000,172,"2018-09-22 02:20:05",i1CTF{cmloZXh1YWxwYWRvc2JlaHhmdGVqYXl2b3Z1d21uenU=}
+17,1337000000000017,1337000000000000,225,"2018-09-22 02:25:04",i1CTF{b3VtdmNlY2hxbW1heGluYnpmdGp0c21jYWtocnBvc2M=}
+18,1337000000000018,1337000000000000,50,"2018-11-05 18:50:13",i1CTF{a2VuYmd6aHhyYXFnd2xqd2ZtZXVuZXp6Y3JuY3h4Y2U=}
+19,1337000000000019,1337000000000000,189,"2018-11-05 17:56:08",i1CTF{bmJ3YXJmaHNuc3duY3RxZ3NwZnN4cmF2enJwcWVna3g=}
+20,1337000000000020,1337000000000000,244,"2018-11-05 18:00:08",i1CTF{bWRqeGtsc3J0Y2xhdHJzbnZydmZ4bGh0dnlmcHBhZ3A=}
+21,1337000000000021,1337000000000000,183,"2018-11-05 18:05:07",i1CTF{cHNyYXNwZWJiYmhoeWtxcWFlZ2Vkbm92a3dnenhtanI=}
+22,1337000000000022,1337000000000000,278,"2018-11-05 18:10:07",i1CTF{aHJla3VncnJ4cmVrcWNhd2x1enBidnJycWR2aHNid3o=}
+23,1337000000000023,1337000000000000,162,"2018-11-05 18:15:01",i1CTF{Y21qcm5tem55YXZjdHVsZGNieWhxd3FseGtweWlvcGE=}
+24,1337000000000024,1337000000000000,68,"2018-11-05 18:20:06",i1CTF{ZXNvZmN2eWF6aXBmcXVzZ3NseXFobmRvYWhleXVwZXg=}
+25,1337000000000025,1337000000000000,175,"2018-11-05 18:25:04",i1CTF{dGNxa2l5a2hteHZyaXdmdGhpbmN1bmxtanZhenJoaW4=}
+
+All other users transactions have as reciever the user with id 1, so we find all the 25 different transactions.
+
+
+==================================================================================
+
+At transactions, when making a transaction: the message field is vulnerable to xss. We can write '> at the beggining of the message, and everything we write after that can get executed, such as js scripts. 
+
+To fix this, we can use the htmlspecialchars() php function to sanitize the message.
+==================================================================================
+
+At support: both fieds are vulnerable to xss attacks. In the message field we can simply write an script, whereas in the URL field we have to do something like this:
+http://10.0.23.24:7777/card2card> <script>alert("mensagem3")</script>
+
+As the problem above, we can use again the htmlspecialchars() php function to sanitize it.

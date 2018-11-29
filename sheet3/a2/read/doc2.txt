@@ -1,0 +1,4 @@
+For this problem we have to hook important library calls to make the envoirment more secure.
+
+whitelist: list of all allowed files.
+Each file needs it's absolute path

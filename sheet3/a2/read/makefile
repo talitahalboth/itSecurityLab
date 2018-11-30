@@ -1,1 +1,0 @@
-gcc -shared -fPIC -o inject.so inject.c -ldl

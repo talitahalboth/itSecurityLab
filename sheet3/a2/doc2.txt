@@ -1,0 +1,21 @@
+usage:
+//export and then run
+export LD_PRELOAD=$PWD/hook.so
+
+LD_PRELOAD=$PWD/hook.so ./a.out
+
+
+For this problem we have to hook important library calls to make the envoirment more secure.
+
+whitelistRead: lists of files allowed to read
+whitelistWrite: lists of files allowed to write
+We need to write the absolute path of each file on the whitelist.
+This have not been tested on operational systems that aren't unix based. 
+
+
+
+
+DISCLAIMER:
+After I finished writing the hooked functions for read, write, fread and fwrite, I had the idea to check the opening mode of the file. If the user wants to read it, i check if it's in the read whitelist, if they want to write, on the write whitelist. That way, hooking the read and write functions is not necessary. I left it there only to show that I could do it without checking the mode the user wanted to open it.
+
+One way of breaking out of the sandbox is by linking the libraries statically. Another way is by making the application use "dlsym" to find the first function with the name we need

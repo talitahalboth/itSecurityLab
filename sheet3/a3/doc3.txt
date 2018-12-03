@@ -1,0 +1,40 @@
+Usage:
+On the target:
+$ sudo python client.py -h <host> -b <bind>
+
+The attacker:
+sudo
+$ sudo python server.py -h <host> -b <bind>
+
+The "bind" argument is set to 10.0.24.12 by default. 
+That is my ip address at the VPN interface. I used it
+so I could test it on my machine.
+
+
+How they work:
+Both client.py and server.py are based off "ping.pyx", 
+the code from activity 1 used to ping. Because it already
+have most of what we need to send icmp messages, we can 
+only adjust it.
+The first difference between ping.pyx and client.py and server.py
+is that instead of using "ICMP_ECHO_REQUEST", we use "ICMP_ECHO_REPLY".
+Using request caused me trouble when testing in my machine.
+
+How server.py works:
+We keep recieven pings and testing if they have the string "connected" on
+the optional data field. This is an arbritary string, the only requirement
+is that the client sends the same string that the server is waiting. 
+After finding this string, we have to "authenticate", so we send a ping 
+with the password on the optional data field. The password i chose is just 
+"password" (not secure at all, but works for what I want to do).
+After sending the password, we wait for a rersponse from the client that 
+our password was right ("OK"). Then, we just read the commands we want to 
+execute at the victim machine, and send them, again, on the opt. data field,
+and recieve the output back from the client.
+
+How client.py works:
+We keep sending a ping with the "connected" string on the opt. data, and
+keep checking if we got the password back. When we find the password, we send 
+an "OK" message to the server. Then, we keep getting the commands from the 
+server, and we execute them using "os.system". To send the output, we simply 
+redirect the output of the command to a file, and send the content of the file.

@@ -1,0 +1,47 @@
+Checking for emulator:
+I found out that "protected Scene onCreateScene()" calls twice a function 'a' with parameters (Build.FINGERPRINT) and (Build.PRODUCT), and 'a' checks it's parameter (str) using (str.contains(getString()) and comparing it to some of the strings in "resources". if it finds any of the strings, it makes a toast appear with the "DO NOT RUN IN EMULATOR!" message. It checks for the following:
+generic
+unknown
+google
+droid
+gold
+andy
+dragon
+box
+fp_other1
+qemu
+fp_other0
+vmware
+
+It also checks for the bluetooth adapter, and for the level and scale of the battery, to find out if it's running on an emulator. 
+To patch it, I removed all calls to "system.exit".
+The patched version is under app-releasePatched.apk
+
+==============================================================================================
+
+
+
+Cheats:
+
+Using the app on my phone, I tried to write a random cheat and start the game. This gave me a toast, "TRY HARDER CHEATER!". So, I used grep to find this and it was under res>value>strings.xml:
+
+
+<string name="caught2">TRY HARDER CHEATER!</string>
+
+
+
+So I used grep with "caught2" to find out where it's used. I found it in ./sources/com/prosper/ts/hapra/p021a/C0420a.java. There is a class C04191, which has a function run(), that crates a toast with that text. Then, i found that the function 
+m1736a(byte[] bArr) 
+called runOnUiThread(new C04191(this)). 
+And the function that called this one is 
+C0420a(TiledTextureRegion tiledTextureRegion, VertexBufferObjectManager vertexBufferObjectManager, String str, GameActivity gameActivity).
+
+It does the following:
+First it checks if the string entered on "cheats" is either "Feed me cheats..." (the default entry) or if it starts with 'A'. If either of those are true, the game starts with it's default configurations. But, if it's not the case, then the string entered gets send to a function C0420a. Then, it's transformed in bytes. This same function takes the "Flappy.png" and XOR it with the string "HaPra", and gets a dex from it. This have some classes at com.cheatengine.cheats, that are the ones that deals with the cheats. In it, sha 512 gets replaced with sha256, the cheat is hashed with it, and compared with another hashes. So, knowing that, I substituted all of the hashes with 64 chars with the string "dummy" encripted with sha256, and i repacked the app. Doing that I tested the cheat "dummy", and I found out that by doing that all my points were multiplied by 1000 (and I got a "hint" for the second cheat code)
+ 
+There's one function that perform the following:
+if (mo532a(this.c.m1735e(), "642385be53489dd39a9256a10a6627dd83e614dacf294de7b0719954a927aeb9") || mo532a(this.c.m1735e(), "7e6fd9ca8c7e437208b5f91efb4a94c568586645345553a25f39c8ef19eae632") || mo532a(this.c.m1735e(), "00f88d2a5ea817d15f6cb29184366840"))
+and, if true, it calls another function ad eventually, creates a toast with the "success" string on it.
+Using an online MD5 decrypter, I found out that the third string "translates" to "HaPra". I tested in on the app, and it gave me the Success toast, but it wasn't an actual cheat, as it still gives the "try harder cheater" toast.
+
+

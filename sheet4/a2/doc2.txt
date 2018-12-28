@@ -1,0 +1,16 @@
+The program disguises itself as a "word cloud" creator. It asks for permissions to use the calendar, the sms and the user's contacts to create the word cloud from it.
+
+==============================================================================================
+
+One of the things it does is the following:
+It deletes all contacts from the contacts list of the user, and saves the list encoded on base 64 on a contacts.txt file.
+It crates a dayle event on the calendar with title and description "Pay ransom 1 BTC to BTC:XXXXXXXX to retrieve your contact", with an alarm.
+It opens a socket with the address "10.20.5.98" and the port based on the device's battery level and scale. It reads from it, and depending on what it reads, it can either sends all of the sms' from the user to the socket if it reads "getSMS" or send the number of the send if it reads "getNr". There's also a function to send a message to the number 01234561.
+
+
+==============================================================================================
+
+To reverse the changes, we need to decode the content of "contacts.txt" in base 64 and save them back on the contacts list.
+They're written in the following way:
+:Joao = 1 234-567;
+Then, we need to delete the event created on the calendar.

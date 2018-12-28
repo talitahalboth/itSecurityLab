@@ -1,0 +1,42 @@
+Hard-coded credentials:
+I decompile the code using jadx. It gave me the directories "original", "resources" and "sources", along with "res", that was already present on the .apk version. Looking around at the files, LoginActivity.java (sources/de/fau/i1/aka/h4ckpr0/), we find the hardcoded credentials "DUMMY_CREDENTIALS", and it's value is set to "YmFiYnlzQGZpcnN0LnJlOnBhY2thZ2VkLmFwcA".
+
+
+
+==============================================================================================
+
+
+
+Checking for repackaging, debugging, dynamic analysis and emulators:
+At "protection avtivity", it calls the functions to check from all of the above.
+
+==============================================================================================
+
+Repacking:
+It checks for repacking by checking the certificate of the application. 
+
+==============================================================================================
+
+Debugging:
+If checks for debbuging using context.getApplicationInfo().flags and making a bitwise "and" operation with 2. 
+The FLAG_DEBUGGABLE (that can be associated with the application to inform if the application would like to allow debugging of its code) constant's value is 2 (0x00000002), so we can check if it's set to true with the bitwise & operation.
+
+==============================================================================================
+
+Dynamic Analysis:
+It checks some properties of adb (Android Debug Bridge).
+
+
+==============================================================================================
+
+Emulators:
+When checking for emulators, it checks for the string "sdk". This is because Android SDK includes a virtual mobile device emulator.
+
+
+
+==============================================================================================
+
+
+
+To patch it I simply made each function return "false" before doing anything.
+The patched version is under h4ckPr0Patched.apk

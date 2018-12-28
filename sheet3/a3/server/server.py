@@ -21,8 +21,8 @@
 import os, sys, socket, struct, select, time, string, argparse
 ICMP_ECHO_REPLY = 0
 parser = argparse.ArgumentParser(description='ping')
-parser.add_argument('-b','--bind', type=str, default="192.168.1.179", help= 'where to bind')
-parser.add_argument('-H', '--host', type=str, default="10.0.24.8", help='remote host')
+parser.add_argument('-b','--bind', type=str, default="10.0.24.8", help= 'where to bind')
+parser.add_argument('-H', '--host', type=str, default="10.0.23.31", help='remote host')
 
 args = parser.parse_args()
 

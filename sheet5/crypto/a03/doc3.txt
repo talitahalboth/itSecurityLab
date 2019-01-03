@@ -1,0 +1,12 @@
+Using OpenSSL, we can find out the exponent of the public key and the module. We find out that they have low exponents (3), making it vulnerable and not secure.
+
+========================================================================================================================
+
+Knowing that the exponent of the public keys is 3, and having the same message encrypted 3 times with different public keys, we can find out the original message using the Chinese remainder theorem. 
+We have the original message, m, the modules of each public key, NB, NC and ND, and 3 ciphetexts, cB, cC and cD, which are the following:
+cB = m^3 mod NB, cC = m3 mod NC, and cD = m3 mod ND.
+By using the Chinese Remainder theorem, we can compute c such that c = m3 mod (NB*NC*ND). Then, we find the cubic root of c, and we have the original message, which is:
+
+The answer to life the universe and everything = 42
+
+The algorithm "crypto.py" finds it.

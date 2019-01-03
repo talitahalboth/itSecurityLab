@@ -1,0 +1,32 @@
+The request that should me made to transfer make the transfer to our account is 
+
+wUHhFdm5le/fLoF/G4U0u6FGSNVtkxFA3ZIEwYombzhGF2eYUCOusH3g2R56BtYlBd5FO/XlJkQ058Ev+8hTIA==
+
+'modifyRequest.py' is what I used to create this request. It takes as input the file "request".
+AES-CBC can be exploitet using one of it's properties: malleability. This means that it's possible to transform a ciphertext into another ciphertext which decrypts to a related plaintext. In the CBC case, we can alter a block (i) of the cipher text, and by doing that, we can change what the next block (i + 1) of the plaintext will read. This of course means that the block i of the modified plaintext will change as well, and we can't predict it's changes.
+We know that AES-128 is encrypted using a key with 16 bytes, and the original request (TRANSFER AMOUNT $1000000 REASON Salary Jan. 2016 DEST #78384 END) has 64 chars, wich means it can be divided into 4 (64/16) blocks, like the followin:
+TRANSFER AMOUNT 
+$1000000 REASON 
+Salary Jan. 2016
+ DEST #78384 END
+
+What we need to change it in 4th block: 
+from
+ DEST #78384 END
+to
+ DEST #31337 END
+
+We also know how the server works:
+It checks for the keywords "TRANSFER" and "END", and it transfers the amount right after "AMOUNT". That means those parts of the modified request need to stay the same. Looking at the blocks, we notice that on the 3rd block there isn't anything important, and we can change this part. So we can modify the 3rd block of the ciphertext without being concerned with modifications in the 3rd block.
+
+So, to actually get the modified ciphertext, we do the following:
+let "cipher" be the original ciphertext, decoded in base64, "original" the original plaintext, "modified" the modified plaintext.
+we first find out "dec" by XORing the 2nd block of cipher and the 3rd block of "original".
+Then, we find out "modCipher" by XORing "dec" and "modified".
+Finally, we encode modCipher in base 64.
+
+And with this, we create the modified ciphertex.
+
+========================================================================================================================
+
+The basic principle that was violated is "integrity". We can't be sure if the message was or not modified by third parties. CBC's not suitable to guarantee authenticity because someone who isn't the author can modify the message.s

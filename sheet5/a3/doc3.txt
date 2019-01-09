@@ -1,3 +1,11 @@
+Description of the files in this directory :
+
+crypto.py: fins ouy the private key
+msg[1-3].bin: neccessary for crypto.py. The messages we got.
+parampk[1-3].bin: neccessary for crypto.py. The modulus of the public keys we got.
+
+====================================================================================================================
+
 Using OpenSSL, we can find out the exponent of the public key and the module. We find out that they have low exponents (3), making it vulnerable and not secure.
 
 ========================================================================================================================

@@ -1,3 +1,11 @@
+Description of the files in this directory :
+
+modifyRequest.py: script the changes the original "request" to the one we want (modRequest)
+request: original request.
+modRequest: modified request
+
+====================================================================================================================
+
 The request that should me made to transfer make the transfer to our account is 
 
 wUHhFdm5le/fLoF/G4U0u6FGSNVtkxFA3ZIEwYombzhGF2eYUCOusH3g2R56BtYlBd5FO/XlJkQ058Ev+8hTIA==
@@ -29,4 +37,4 @@ And with this, we create the modified ciphertex.
 
 ========================================================================================================================
 
-The basic principle that was violated is "integrity". We can't be sure if the message was or not modified by third parties. CBC's not suitable to guarantee authenticity because someone who isn't the author can modify the message.s
+The basic principle that was violated is "integrity". We can't be sure if the message was or not modified by third parties. CBC's not suitable to guarantee authenticity because someone who isn't the author can modify the message. To avoid it we could use XTS instead of CBC. It's not vulnerable to malleability attack.

@@ -1,0 +1,48 @@
+Description of the files in this directory :
+
+findPrivKey.py: script to find the private key of the ECSDA.
+private.pem: private key we found
+vk.pem: public key we got 
+message: the message we want to sign with the private key we found.
+signature.bin: the signature we get by signing "message" with "private.pem"
+
+====================================================================================================================
+
+Using OpenSSL, we find out that the type of curve used is "P-256" (or "prime256v1").
+
+====================================================================================================================
+Looking at the signatures with an HEX-editor we can see that the first ~39 characters are the same. Using openssl, we can parse both of them, and we get that: 
+
+
+Parsing the signature of the fist message:
+0:d=0  hl=2 l=  69 cons: SEQUENCE          
+2:d=1  hl=2 l=  33 prim: INTEGER           :BFE855905780E8470494024E6BF8E5FE7FE32BF812DCBBD16993B1EA465A2874
+37:d=1  hl=2 l=  32 prim: INTEGER           :615B3B0D09A5B0D2F79571392A7278BB7BB58542C5BA0D6B71A934BC17A65C4E
+
+Parsing the signature of the second message:
+0:d=0  hl=2 l=  69 cons: SEQUENCE          
+2:d=1  hl=2 l=  33 prim: INTEGER           :BFE855905780E8470494024E6BF8E5FE7FE32BF812DCBBD16993B1EA465A2874
+37:d=1  hl=2 l=  32 prim: INTEGER           :63089FBACCDC2C5C8AA9583A7627B79F25C0D1188A94B569B5D90F317C4FAF65
+
+The first integer in both cases is the same. In a ECDSA signature we have 2 integers, R being the first and S the second hex numbers we found when parsing, and R is the same for both signatures. This shows us that the "random" k used is the same in both cases, and it opens an opportunity for us to exploit it and find the private key.
+
+====================================================================================================================
+
+The script "findPrivKey.py" finds the private key of the messages we recieved.
+We can find k with m being msg1.txt and m2 being msg2.txt, and s1 being s of the first message and s2 the s of the second message by doing the following equation:
+z1 = the Ln leftmost bits hash(m1) 
+z2 = the Ln leftmost bits hash(m2)
+k = (z1-z2)/(s1-s2)
+
+Having found k, we can find the private key dA doing:
+dA = (s*k-z)/r
+
+We know that all those operations are done are done modulo n, n being the integer order of the elliptic curve. We can find at "SEC 2: Recommended Elliptic Curve Domain Parameters" the order of our curve (prime256v1, aka secp256r1), and use it to do the modulo operation.
+
+The private key we discover is stored at the file "private.pem".
+
+====================================================================================================================
+
+The new signed message is under "message", and the signature is under "signature.bin", and we can verify it using openssl:
+
+$ openssl dgst -ecdsa-with-SHA1 -verify public.pem -signature signature.bin message

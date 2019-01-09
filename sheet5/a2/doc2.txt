@@ -1,8 +1,16 @@
+Description of the files in this directory :
+
+motd.txt: the original content of "message of the day"
+message: what we want to append to the message of the day
+newMessage: file with the new message and the new HMAC
+
+====================================================================================================================
+
 The file "newMessage" contains the new message and the new HMAC.
 The first line is the recalculated hash, and everything below it is the extended message.
 To generate it, we have to change the 8 initial values that sha256 uses, based on the original hmac. We also need to add the padding to the original message (considering the size of the key, in the case, 20), and then concatenate it with the extension we want, and recalculate the sha256 based on that.
 
 ====================================================================================================================
 
-The message starts with the letter "H" becaus of the last step of the pre proccessing of the original message. We need to pre proccess it before being able to extend it, so we first pad it and then we add (length of the key + the length of the original message) in binary. 
+The message starts with the letter "H" because of the last step of the pre proccessing of the original message. We need to pre proccess it before being able to extend it, so we first pad it and then we add (length of the key + the length of the original message) in binary. 
 The length in chars of the key is 20, and the length of the original message is 373, which added equals to 393. Then, we multiply it by 8, to find out the length in binary, which equals to 3144. It's value in hex representations is x0C48. The x0C char in ascii is '\f', which doesn't show up at the html page, but x48 is the ascii value of the letter "H", so it shows up.

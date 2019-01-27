@@ -1,0 +1,22 @@
+a) First i simply created a 1MB file and used it as input, and it crashed the program. I then found out how much chars the executable could handle before I got a segmentation fault on the 32 version: 265, and on the 64 version: 273. So, when I get to 266 and 274 chars respectively, I crash both programs.
+
+
+==================================================================================================================
+
+
+b) The vulnerable instruction was strcpy. After it uses all the free memory, it starts to overwrite stuff in the stack, and it ovewrites the RIP. By doing so, the program tries to return to somewhere that it isn't allowed to.
+
+
+==================================================================================================================
+
+
+c) To execute the "secret" function, I used IDA to find out where it started: at the address 0x08048480. We can execute the following to make the secret function be called:
+./hack-me.32 $(python -c 'print "\x80\x84\x04\x08"*68')
+
+
+==================================================================================================================
+
+
+
+d) To execute the secret function in the 64 version, I found out where the secret function started: 0x00000000004005E0. Then executing the follwing command, we can execute the secret function:
+./hack-me.64 $(python -c 'print "A"*280+"\xE0\x05\x40"'). 

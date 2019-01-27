@@ -1,0 +1,128 @@
+0804847b         align      128
+
+
+        ; ================ B E G I N N I N G   O F   P R O C E D U R E ================
+
+        ; Variables:
+        ;    var_4: int32_t, -4
+        ;    var_8: int32_t, -8
+
+
+             secret:
+08048480         push       ebp
+08048481         mov        ebp, esp
+08048483         sub        esp, 0x8
+08048486         lea        eax, dword [aS3cr3tn]                               ; "s3cr3t\\n"
+0804848c         mov        dword [esp+0x8+var_8], eax                          ; argument "__format" for method j_printf
+0804848f         call       j_printf                                            ; printf
+08048494         mov        dword [ebp+var_4], eax
+08048497         add        esp, 0x8
+0804849a         pop        ebp
+0804849b         ret
+                        ; endp
+0804849c         align      32
+
+
+        ; ================ B E G I N N I N G   O F   P R O C E D U R E ================
+
+        ; Variables:
+        ;    arg_0: int, 8
+        ;    var_8: int32_t, -8
+        ;    var_108: int8_t, -264
+        ;    var_10C: int32_t, -268
+        ;    var_110: int32_t, -272
+        ;    var_114: int32_t, -276
+        ;    var_118: int32_t, -280
+        ;    var_120: int32_t, -288
+        ;    var_124: int32_t, -292
+        ;    var_128: int32_t, -296
+
+
+             normal:
+080484a0         push       ebp                                                 ; CODE XREF=main+47
+080484a1         mov        ebp, esp
+080484a3         push       esi
+080484a4         sub        esp, 0x124
+080484aa         mov        eax, dword [ebp+arg_0]
+080484ad         lea        ecx, dword [aUSn]                                   ; "(%u) %s\\n"
+080484b3         lea        edx, dword [ebp+var_108]
+080484b9         mov        dword [ebp+var_8], eax
+080484bc         mov        eax, dword [ebp+var_8]
+080484bf         mov        esi, esp
+080484c1         mov        dword [esi+4], eax
+080484c4         mov        dword [esi], edx
+080484c6         mov        dword [ebp+var_10C], edx
+080484cc         mov        dword [ebp+var_110], ecx
+080484d2         call       j_strcpy                                            ; strcpy
+080484d7         mov        ecx, esp
+080484d9         mov        edx, dword [ebp+var_10C]
+080484df         mov        dword [ecx], edx
+080484e1         mov        dword [ebp+var_114], eax
+080484e7         call       j_strlen                                            ; strlen
+080484ec         mov        ecx, dword [ebp+var_110]
+080484f2         mov        dword [esp+0x128+var_128], ecx                      ; argument "__format" for method j_printf
+080484f5         mov        dword [esp+0x128+var_124], eax
+080484f9         mov        eax, dword [ebp+var_10C]
+080484ff         mov        dword [esp+0x128+var_120], eax
+08048503         call       j_printf                                            ; printf
+08048508         mov        dword [ebp+var_118], eax
+0804850e         add        esp, 0x124
+08048514         pop        esi
+08048515         pop        ebp
+08048516         ret
+                        ; endp
+08048517         align      32
+
+
+        ; ================ B E G I N N I N G   O F   P R O C E D U R E ================
+
+        ; Variables:
+        ;    arg_4: int, 12
+        ;    arg_0: int, 8
+        ;    var_4: int32_t, -4
+        ;    var_8: int32_t, -8
+        ;    var_C: int32_t, -12
+        ;    var_10: int32_t, -16
+        ;    var_14: int32_t, -20
+        ;    var_18: int32_t, -24
+
+
+             main:
+08048520         push       ebp                                                 ; DATA XREF=_start+23
+08048521         mov        ebp, esp
+08048523         sub        esp, 0x18
+08048526         mov        eax, dword [ebp+arg_4]
+08048529         mov        ecx, dword [ebp+arg_0]
+0804852c         mov        dword [ebp+var_4], 0x0
+08048533         mov        dword [ebp+var_8], ecx
+08048536         mov        dword [ebp+var_C], eax
+08048539         cmp        dword [ebp+var_8], 0x2
+08048540         jne        loc_8048559
+
+08048546         mov        eax, dword [ebp+var_C]
+08048549         mov        eax, dword [eax+4]
+0804854c         mov        dword [esp+0x18+var_18], eax                        ; argument #1 for method normal
+0804854f         call       normal                                              ; normal
+08048554         jmp        loc_804857f
+
+             loc_8048559:
+08048559         lea        eax, dword [aUsageSStringn]                         ; "Usage: %s <string>\\n", CODE XREF=main+32
+0804855f         mov        ecx, dword [ebp+var_C]
+08048562         mov        ecx, dword [ecx]
+08048564         mov        dword [esp+0x18+var_18], eax                        ; argument "__format" for method j_printf
+08048567         mov        dword [esp+0x18+var_14], ecx
+0804856b         call       j_printf                                            ; printf
+08048570         mov        dword [ebp+var_4], 0xffffffff
+08048577         mov        dword [ebp+var_10], eax
+0804857a         jmp        loc_8048586
+
+             loc_804857f:
+0804857f         mov        dword [ebp+var_4], 0x0                              ; CODE XREF=main+52
+
+             loc_8048586:
+08048586         mov        eax, dword [ebp+var_4]                              ; CODE XREF=main+90
+08048589         add        esp, 0x18
+0804858c         pop        ebp
+0804858d         ret
+                        ; endp
+0804858e         align      16

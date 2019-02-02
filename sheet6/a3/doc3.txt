@@ -1,4 +1,4 @@
-1.
+1- 
 a) One possible license key is "APPPP-0PPP0-00000-ONOAO-0110X". 
 
 ==============================================================================
@@ -22,6 +22,8 @@ a) To be able to walk thourgh walls, we can change the function collide from the
 
 wallHack.64 is the version in which one is able to walk thourgh walls.
 
+Obs.: I only allowed the user to walk through walls. I did not do the same to stairs, houses and other objects, but the way of doing is the same.
+
 ==============================================================================
 
 b) To be able to fly throughout all the levels, i first tried to edit the "gravity" method. This didn't lead me anywhere, so I changed the plan and started messing with the "jump" method. I could make the player jump higher than before, and after that I needed only to make the player fall slower. So I went on the "save_state" method and edited it (the first "if"), and I was able to only go down when the player was pointing down.
@@ -30,7 +32,7 @@ flyHack.64 is the version in which one can fly throughout all the levels.
 
 ==============================================================================
 
-c) To be able to run quicker in the game, I edited the second "if" in she "save_state" method.
+c) To be able to run quicker in the game, I edited the second "if" in she "save_state" method, to make the condition the inverse of what it was.
 
 speedHack.64 is the version in which one can walk quickly throughout all the levels.
 
@@ -38,7 +40,8 @@ speedHack.64 is the version in which one can walk quickly throughout all the lev
 ==================================================================================================================
 
 
-3- The first thing we need is to find out which function is vulnerable to the shell injection. I found that the methodo  level(int, camera *, sound *), which opens the files for the levels, has a function "getline". And this function calls "getc", but it never checks if the buffer size was extrapolated, so it's vulnerable. I found out how many bytes it could take (0x234, or 564 in decimal), and I overwrote the level 5's labyrinth with "A"*568 + '\x11\x11\x88\xff'. This means that the code that's be called is the one in the address 0xff888888. This is an arbritary address. To do the shellcode injection, I used an environment variable with the code I needed to execute. Because the memory is allocated dynamically, I can't be exactly sure of where the variable will be. For that reason, I just made an assumption that it is in the address 0xff888888 (which was in the end of the labyrinth file, to be executed). I can be either right or wrong in this assumption, and, to make my chances of getting to it, I used the idea of "NOP sled" with the environment variable.
+3-
+a) The first thing we need is to find out which function is vulnerable to the shell injection. I found that the methodo  level(int, camera *, sound *), which opens the files for the levels, has a function "getline". And this function calls "getc", but it never checks if the buffer size was extrapolated, so it's vulnerable. I found out how many bytes it could take (0x234, or 564 in decimal), and I overwrote the level 5's labyrinth with "A"*568 + '\x11\x11\x88\xff'. This means that the code that's be called is the one in the address 0xff888888. This is an arbritary address. To do the shellcode injection, I used an environment variable with the code I needed to execute. Because the memory is allocated dynamically, I can't be exactly sure of where the variable will be. For that reason, I just made an assumption that it is in the address 0xff888888 (which was in the end of the labyrinth file, to be executed). I can be either right or wrong in this assumption, and, to make my chances of getting to it, I used the idea of "NOP sled" with the environment variable.
 The variable is the following:
 export SHELLCODE=$(python -c 'print "\x90"*100000 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80"') 
 

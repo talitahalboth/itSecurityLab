@@ -1,13 +1,20 @@
-The password for challenge 1 is "p4ssw0rd". We can find it easily using "Hopper Disassembler".
+1) The password for challenge 1 is "p4ssw0rd". We can find it easily using
+"Hopper Disassembler".
 
 
-==================================================================================================================
+================================================================================
 
 
-The password for challenge 2 is "1337". We can fin it using Hopper combined with Boomerang. Looking at Boomerang, we see that the string that our entry is compared to is a sprintf of another string. This one is the sum of 4 numbers. Than, using Hopper, we can see which are there numbers, and we just need to sum them.
+2) The password for challenge 2 is "1337". We can fin it using Hopper combined
+with Boomerang. Looking at Boomerang, we see that the string that our entry is
+compared to is a sprintf of another string. This one is the sum of 4 numbers.
+Than, using Hopper, we can see which are there numbers, and we just need to sum
+them.
 
 
-==================================================================================================================
+================================================================================
 
 
-The password for challenge 3 is "zyvgjqpc". Based on the assembly code, I wrote the function that tests the password myself and printed the output.
+3) The password for challenge 3 is "zyvgjqpc". Based on the assembly code, I
+wrote the function that tests the password myself and printed the output. The
+source code "printPassword.c" is what does it.

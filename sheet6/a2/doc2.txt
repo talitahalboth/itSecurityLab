@@ -1,14 +1,19 @@
-1) First i simply created a 1MB (made of "A" chars) file and used it as input, and it crashed the program. I then found out how much chars the executable could handle before I got a segmentation fault on the 32 version: 265, and on the 64 version: 273. So, when I get to 266 and 274 chars respectively, I crash both programs.
+1) First i simply created a 1MB (made of "A" chars) file and used it as input,
+and it crashed the program. I then found out how much chars the executable
+could  handle before I got a segmentation fault on the 32 version: 265, and on
+the 64  version: 273. So, when I get to 266 and 274 chars respectively, I
+crash both  programs.
 
 
-==================================================================================================================
+================================================================================
 
 
-2) The vulnerable instruction was strcpy. After it uses all the free memory, it starts to overwrite stuff in the stack, and it ovewrites the RIP. By doing so, the program tries to return to somewhere that it isn't allowed to.
+2) The vulnerable instruction was strcpy. After it uses all the free memory, it
+starts to overwrite stuff in the stack, and it ovewrites the RIP. By doing so,
+the program tries to return to somewhere that it isn't allowed to.
 
 I drew the stack of the 32 bit version.
 The Stack before:
-
 |__________|
 |0x41414141| < buffer
 |0x41414141|
@@ -40,18 +45,27 @@ The Stack after:
 |__________|
 
 
-It crashes because it tries to return to a position in memory which it isn't allowed to access.
+It crashes because it tries to return to a position in memory which it isn't
+allowed to access.
 
-==================================================================================================================
-
-
-3) a)To execute the "secret" function, I used IDA to find out where it started: at the address 0x08048480. We can execute the following to make the secret function be called:
-b)./hack-me.32 $(python -c 'print "\x80\x84\x04\x08"*68')
-
-(We find out that the address of the buffer used with strcpy is 0x10c, or 268: by doing \x80\x84\x04\x08"*68, we get 272 bytes, and are able to execute the secret function).
-==================================================================================================================
+================================================================================
 
 
+3) a)To execute the "secret" function, I used IDA to find out where it started:
+at the address 0x08048480. We can execute the following to make the secret
+function  be called:
 
-4) To execute the secret function in the 64 version, I found out where the secret function started: 0x00000000004005E0. Then executing the follwing command, we can execute the secret function:
+b) The script:
+./hack-me.32 $(python -c 'print "\x80\x84\x04\x08"*68')
+
+(We find out that the address of the buffer used with strcpy is 0x10c, or 268:
+by doing \x80\x84\x04\x08"*68, we get 272 bytes, and are able to execute the
+secret function).
+================================================================================
+
+
+
+4) To execute the secret function in the 64 version, I found out where the
+secret  function started: 0x00000000004005E0. Then executing the follwing
+command, we can  execute the secret function: 
 ./hack-me.64 $(python -c 'print "A"*280+"\xE0\x05\x40"')
